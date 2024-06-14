@@ -1,0 +1,100 @@
+﻿@model AuctionWebApplication.Auction
+@{
+    ViewData["Title"] = "Details";
+    Layout = "~/Views/Shared/_Layout2.cshtml";
+}
+@{
+    ViewBag.Title = Model.AuctionName;
+    var comments = (IEnumerable<AuctionWebApplication.Models.AuctionsComment>)ViewBag.Comments;
+    var ratingSum = ViewBag.RatingSum;
+    var ratingCount = ViewBag.RatingCount;
+
+    decimal rating = 0;
+    if (ratingCount > 0)
+    {
+        rating = (ratingSum / ratingCount);
+    }
+    var totalRating = decimal.Parse(rating.ToString());
+
+}
+
+<section id="Bid">
+    <div class="container-fluid">
+        <div class="wrapper">
+            <div class="row">
+                <div class="col-md-12 col-lg-6">
+                    <img src="~/@Model.Image" width="100%" height="100%" style="box-shadow:1px 1px 4px 0px #0000008c; border-radius:3px" />
+                </div>
+                <div class="col-md-12 col-lg-6">
+                    <div class="top">
+                        @if (User.IsInRole("block"))
+                        {
+                            <div class="alert alert-danger">fraudulent users use while the system</div>
+                        }
+                        @if (TempData["ErrorMessage"] != null)
+                        {
+                            <div class="alert alert-danger">@Html.Raw(TempData["ErrorMessage"])</div>
+                        }
+                        <h3 class="car-title" style="font-family:courier,arial,helvetica; color: red;">@Model.AuctionName</h3>
+                        @if (Model.StartPrice == 0)
+                        {
+                            <p class="highestBid-title">Starting Price</p>
+                            <h4>@Html.DisplayFor(model => model.StartPrice) $</h4>
+                            <h4 class="highestBid-price" style="color: #24d278;"> @Html.DisplayFor(model => model.Bid.Price) $</h4>
+                        }
+                        @if (Model.StartPrice > 0)
+                        {
+                            <h4 style="color: #24d278;">StartPrice @Html.DisplayFor(model => model.StartPrice) $</h4>
+                            <p class="highestBid-title">Highest Bid</p>                            
+                            <h4 class="highestBid-price"> @Html.DisplayFor(model => model.Bid.Price) $</h4>
+                        }
+                    </div>
+                    <div class="form-group">
+                        <div>
+                            @if (!User.IsInRole("block"))
+                            {
+                                <form asp-action="Details" asp-route-id="@Model.AuctionId">
+                                    <label for="bet">Bid:</label><br>
+
+                                    <input type="number" id="bet" name="bet" step=".01"><br>
+                                    <input type="submit" value="BET">
+                                </form>
+                            } 
+                        </div>
+                    </div>
+                    <div class="car-detail-info">
+                        <ul>
+                            <li>@Html.DisplayNameFor(model => model.AuctionName):@Html.DisplayFor(model => model.AuctionName)</li>
+                            <li> @Html.DisplayNameFor(model => model.EndTime):@Html.DisplayFor(model => model.EndTime)</li>
+                            @if (Model.Seller.Name != "Admin")
+                            {
+                                <li> @Html.DisplayNameFor(model => model.Seller.Name):@Html.DisplayFor(model => model.Seller.Name)</li>
+                            }
+                        </ul>
+                    </div>
+                    
+
+              
+                    @Html.Partial("_CommentBox")
+
+                    <script>
+                        function SCRate() {
+                            for (var i = 1; i <= @totalRating; i++) {
+                                $("#sRate" + i).attr('class', 'starGlowN');
+                            }
+                        }
+                        $(function(){
+                            SCRate();
+                        });
+                    </script>
+                    <a asp-action="Index">Back to the list</a>
+                </div>
+            </div>
+            <hr />
+        </div>
+    </div>
+</section>
+
+
+
+

@@ -1,0 +1,49 @@
+﻿@model IEnumerable<AuctionWebApplication.Bid>
+@inject DbauctionContext dbContext
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Bids</h1>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.AuctionId)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Price)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.BidTime)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Bidder)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @{
+                var auction = dbContext.Auctions.Where(c => c.AuctionId == item.AuctionId).FirstOrDefault();
+                <li>@auction.AuctionName</li>
+                }
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Price)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.BidTime)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Bidder.Name)
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

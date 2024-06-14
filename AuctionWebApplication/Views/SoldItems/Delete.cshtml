@@ -1,0 +1,38 @@
+﻿@model SoldItem
+
+@{
+    ViewData["Title"] = "Delete";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+
+<div>
+    <h4>Delete</h4>
+    <hr />
+    <dl class="row">
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.FinalPrice)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.FinalPrice)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Bidder)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Bidder.Name)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Auction.Image)
+        </dt>
+        <dd class="col-sm-10">
+            <img src="~/@Model.Auction.Image" width="100px" height="auto">
+        </dd>
+    </dl>
+    
+    <form asp-action="Delete">
+        <input type="hidden" asp-for="AuctionId" />
+        <input type="submit" value="delete" class="btn btn-danger"/> |
+        <a asp-action="Index">Back to list</a>
+    </form>
+</div>

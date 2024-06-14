@@ -1,0 +1,56 @@
+﻿@model IEnumerable<AuctionWebApplication.Auction>
+@using System.Security.Claims;
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout2.cshtml";
+
+}
+@if (TempData["ErrorMessage"] != null)
+{
+        <div class="alert alert-danger">@Html.Raw(TempData["ErrorMessage"])</div>
+}
+
+  <section class="brand_section layout_padding">
+    <div class="container">
+      <div class="heading_container">
+        <h2>
+                Auctions
+        </h2>
+      </div>
+        @using (Html.BeginForm("Index", "Auctions", FormMethod.Get))
+        {
+            <div class="row">
+                <div class="form-group col-3">
+                    <label></label>
+                    <input type="text" name="searchString" class="form-control" placeholder="Auction Name" />
+                </div>
+
+                <div class="form-group">
+                    <input style="margin-top: 23px;" type="submit" value="Filter" class="btn btn-primary" />
+                </div>
+
+            </div>
+        }
+
+
+        <div class="brand_container layout_padding2">
+          @foreach (var item in Model) {
+                <div class="box" style="background-color:#f8f9fa;">
+              <a asp-action="Details" asp-route-id="@item.AuctionId">
+                <div class="img-box">
+                    <img src="~/@item.Image"
+                                     alt="Items Image" width="150px" height="150px">
+                </div>
+                <div class="detail-box">
+                  <h6 class="price">
+                      @Html.DisplayFor(modelItem => item.StartPrice) $
+                  <h6 style="font-family:courier,arial,helvetica;">
+                        @Html.DisplayFor(modelItem => item.AuctionName)
+                  </h6>
+                </div>
+              </a>
+              
+            </div> 
+        }
+    </div>
+  </section>

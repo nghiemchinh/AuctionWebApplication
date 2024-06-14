@@ -1,0 +1,47 @@
+﻿@model AuctionWebApplication.ViewModel.RegisterViewModel
+@{
+    ViewData["title"] = "Sign up for a new account";
+    Layout = "~/Views/Shared/_LayoutLogin.cshtml";
+}
+
+<!-- Sign up form -->
+<section class="signup">
+    <div class="container">
+        <div class="signup-content">
+            <div class="signup-form">
+                <h2 class="form-title">Sign up</h2>
+                <form method="post" asp-controller="Account" asp-action="Register" id="register-form">
+                    <div class="form-group">
+                        <label for="name"><i class="zmdi zmdi-account material-icons-name"></i></label>
+                        <input asp-for="Email" class="form-control" placeholder="Email" />
+                        <span style="color:red;" asp-validation-for="Email" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label for="email"><i class="zmdi zmdi-email"></i></label>
+                        <input asp-for="Name" placeholder="Name" class="form-control" />
+                        <span style="color:red;" asp-validation-for="Name" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label for="pass"><i class="zmdi zmdi-lock"></i></label>
+
+                        <input asp-for="Password" placeholder="Password" class="form-control" />
+                        <span style="color:red;" asp-validation-for="Password" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label for="re-pass"><i class="zmdi zmdi-lock-outline"></i></label>
+                        <input asp-for="PasswordConfirm" placeholder="PasswordConfirm" class="form-control" />
+                        <span style="color:red;" asp-validation-for="PasswordConfirm" class="text-danger"></span>
+                    </div>
+                    <div class="form-group form-button">
+                        <input type="submit" name="signup" id="signup" class="form-submit" value="Register" />
+                    </div>
+                </form>
+            </div>
+            <div class="signup-image">
+                <figure><img src="~/images/signup-image.jpg" alt="sing up image"></figure>
+                <a asp-action="Login" asp-controller="Account" class="signup-image-link">Login</a>
+            </div>
+        </div>
+    </div>
+</section>
+

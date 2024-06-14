@@ -1,0 +1,60 @@
+﻿@using System.Security.Claims;
+@model IEnumerable<SoldItem>
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+<h1>
+    Sold Out
+</h1>
+
+<table class="table">
+    <thead>
+        <tr style="color:brown;">
+            <th>
+                @Html.DisplayNameFor(model => model.Auction)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.FinalPrice)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Bidder)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Auction.Image)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Auction.AuctionName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.FinalPrice)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Bidder.Name)
+                </td>
+                <td>
+                    <img src="~/@item.Auction.Image" width="100" height="100">
+                </td>
+                <td>
+                    @if (User.FindFirstValue(ClaimTypes.Role) == "admin")
+                    {
+                        <a asp-action="Details" asp-route-id="@item.AuctionId">Details</a>
+                        <a asp-action="Delete" asp-route-id="@item.AuctionId">Delete</a>
+                    }
+                    else
+                    {
+                        <a asp-action="Details" asp-route-id="@item.AuctionId">Details</a>
+                    }
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
